@@ -53,7 +53,7 @@ public class SocketListener extends Thread {
 			if(message != null) {
 				endpoint.handleMessage(this, message);
 			} else { //If the socket sends a null message, it is assumed that the connection was closed
-				socketOpen = false;
+				disconnectSocket();
 			}
 		}
 	}
@@ -64,7 +64,16 @@ public class SocketListener extends Thread {
 	 * @param message le contenu du message sous la forme d'un objet Serializable
 	 */
 	public void sendMessage(Object message) {
-		IOUtils.sendMessage(writer, message);
+		try{
+			IOUtils.sendMessage(writer, message);
+		} catch(Exception e) {
+			disconnectSocket();
+		}
+	}
+	
+	private void disconnectSocket() {
+		socketOpen = false;
+		endpoint.onDisconnect(this);
 	}
 
 }

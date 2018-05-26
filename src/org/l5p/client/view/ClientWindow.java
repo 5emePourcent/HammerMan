@@ -17,6 +17,8 @@ public class ClientWindow extends JFrame {
 	
 	private CreateServerPanel createServerPanel;
 	
+	private JoinServerPanel joinServerPanel;
+	
 	private GamePanel gamePanel;
 	
 	/**
@@ -57,6 +59,12 @@ public class ClientWindow extends JFrame {
 	public void useCreateServerPanel() {
 		createServerPanel = new CreateServerPanel(this);
 		setContentPane(createServerPanel);
+		revalidate();
+	}
+	
+	public void useJoinServerPanel() {
+		joinServerPanel = new JoinServerPanel(this);
+		setContentPane(joinServerPanel);
 		revalidate();
 	}
 	

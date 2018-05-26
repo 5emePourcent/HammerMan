@@ -1,5 +1,8 @@
 package org.l5p.server.game;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Terrain de jeu d'une partie de HammerMan
  * 
@@ -24,7 +27,7 @@ public class GameMap {
 		this.cells = new Cell[width][height];
 		for (int i = 0; i < cells.length; i++) {
 			for (int j = 0; j < cells[i].length; j++) {
-				cells[i][j] = new Cell();
+				cells[i][j] = new Cell(i, j);
 				if(i == 0 || i == cells.length-1 || j == 0 || j == cells[i].length-1) {
 					cells[i][j].setWall(true);
 				}
@@ -37,6 +40,23 @@ public class GameMap {
 	 */
 	public Cell[][] getCells() {
 		return cells;
+	}
+
+	/**
+	 * Retourne la liste des cellules du terrain de jeu qui ne contiennent pas d'obstacle.
+	 * 
+	 * @return la liste des cellules vides
+	 */
+	public List<Cell> getFreeCells() {
+		List<Cell> freeCells = new ArrayList<Cell>();
+		for (int i = 0; i < cells.length; i++) {
+			for (int j = 0; j < cells[i].length; j++) {
+				if(!cells[i][j].isWall()) {
+					freeCells.add(cells[i][j]);
+				}
+			}
+		}
+		return freeCells;
 	}
 
 }

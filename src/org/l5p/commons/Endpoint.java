@@ -16,5 +16,12 @@ public interface Endpoint {
 	 * @param message le contenu du message
 	 */
 	public void handleMessage(SocketListener listener, Object message);
+	
+	/**
+	 * Méthode appelée lorsque la communication avec une socket reliée au point d'accès est coupée.
+	 * 
+	 * @param socketListener l'objet d'écoute lié à la socket s'étant déconnectée
+	 */
+	public void onDisconnect(SocketListener socketListener);
 
 }

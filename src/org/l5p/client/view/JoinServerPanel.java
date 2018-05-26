@@ -22,34 +22,33 @@ import org.l5p.client.utils.ClientConfig;
 import org.l5p.client.view.factory.ColorSelector;
 import org.l5p.client.view.factory.GuiFactory;
 import org.l5p.commons.PlayerCreationMessage;
-import org.l5p.server.communication.Server;
 import org.l5p.server.utils.ServerConfig;
 
 /**
- * Ecran de création de serveur.
+ * Ecran permettant de rejoindre un serveur de HammerMan.
  * 
  * @author Lucas Moura de Oliveira
  *
  */
 @SuppressWarnings("serial")
-public class CreateServerPanel extends JPanel {
+public class JoinServerPanel extends JPanel {
 
 	private ClientWindow clientWindow;
 	
-	private JButton launchGame, goBackToMenu;
+	private JButton joinGame, goBackToMenu;
 	
-	private JTextField playerName;
+	private JTextField playerName, serverAddress;
 	
-	private JSpinner maxPlayers, portNumber;
+	private JSpinner portNumber;
 	
 	private JComboBox<ColorSelector> playerColor;
 	
 	/**
-	 * Crée l'écran de création de serveur.
+	 * Crée l'écran permettant de rejoindre un serveur.
 	 * 
 	 * @param clientWindow la fenêtre principale du client
 	 */
-	public CreateServerPanel(ClientWindow clientWindow) {
+	public JoinServerPanel(ClientWindow clientWindow) {
 		this.clientWindow = clientWindow;
 		initContent();
 	}
@@ -77,9 +76,9 @@ public class CreateServerPanel extends JPanel {
 
 	private void createFormButtons() {
 		playerName = new JTextField("Kadoc", 10);
-		maxPlayers = new JSpinner(new SpinnerNumberModel(ServerConfig.DEFAULT_MAX_PLAYERS, 1, 8, 1));
 		portNumber = new JSpinner(new SpinnerNumberModel(ServerConfig.DEFAULT_SERVER_PORT, 1000, 65536, 1));
 		playerColor = GuiFactory.createColorSelector();
+		serverAddress = new JTextField("localhost");
 	}
 	
 	private void addFormButtons(JPanel panel) {
@@ -88,8 +87,8 @@ public class CreateServerPanel extends JPanel {
 		gbc.anchor = GridBagConstraints.CENTER;
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		gbc.insets = new Insets(0, 0, 20, 0);
-		panel.add(new JLabel("Max players : "), gbc);
-		panel.add(maxPlayers, gbc);
+		panel.add(new JLabel("Server address : "), gbc);
+		panel.add(serverAddress, gbc);
 		panel.add(new JLabel("Port number : "), gbc);
 		panel.add(portNumber, gbc);
 		panel.add(new JLabel("Player name : "), gbc);
@@ -109,11 +108,11 @@ public class CreateServerPanel extends JPanel {
 
 	private void addFooterButtons(JPanel panel) {
 		panel.add(goBackToMenu);
-		panel.add(launchGame);
+		panel.add(joinGame);
 	}
 
 	private void createFooterButtons() {
-		launchGame = GuiFactory.createMenuButton("Launch game");
+		joinGame = GuiFactory.createMenuButton("Launch game");
 		goBackToMenu = GuiFactory.createMenuButton("Cancel");
 		addButtonsActions();
 	}
@@ -125,11 +124,10 @@ public class CreateServerPanel extends JPanel {
 				clientWindow.useMainMenuPanel();
 			}
 		});
-		launchGame.addActionListener(new ActionListener() {
+		joinGame.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new Server((Integer)maxPlayers.getValue(), (Integer)portNumber.getValue());
-				Client client = new Client("localhost", (Integer)portNumber.getValue());
+				Client client = new Client(serverAddress.getText(), (Integer)portNumber.getValue());
 				clientWindow.useGamePanel(client);
 				PlayerCreationMessage pcm = new PlayerCreationMessage();
 				pcm.setName(playerName.getText().trim());

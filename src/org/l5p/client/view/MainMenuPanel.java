@@ -75,7 +75,7 @@ public class MainMenuPanel extends JPanel {
 		joinServerButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//TODO joining server
+				clientWindow.useJoinServerPanel();
 			}
 		});
 		createServerButton.addActionListener(new ActionListener() {

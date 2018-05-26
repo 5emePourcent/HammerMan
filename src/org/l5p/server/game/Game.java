@@ -41,6 +41,16 @@ public class Game {
 	 */
 	public void addPlayer(Player player) {
 		players.add(player);
+		placePlayerOnFreeCell(player);
+	}
+	
+	/**
+	 * Retire un joueur de la partie.
+	 * 
+	 * @param player le joueur
+	 */
+	public void removePlayer(Player player) {
+		players.remove(player);
 	}
 
 	/**
@@ -48,7 +58,6 @@ public class Game {
 	 */
 	public void start() {
 		initGameMap();
-		placePlayers();
 		startLoop();
 	}
 
@@ -56,10 +65,12 @@ public class Game {
 		gameMap = new GameMap(ServerConfig.MAP_WIDTH, ServerConfig.MAP_HEIGHT);
 	}
 
-	private void placePlayers() {
-//		for(Player player : players) {
-//			//TODO set player position (free cell)
-//		}
+	private void placePlayerOnFreeCell(Player player) {
+		List<Cell> freeCells = gameMap.getFreeCells();
+		Cell cell = freeCells.get((int) (Math.random()*freeCells.size()));
+		player.setX(cell.getX());
+		player.setY(cell.getY());
+		freeCells.remove(cell);
 	}
 
 	private void startLoop() {

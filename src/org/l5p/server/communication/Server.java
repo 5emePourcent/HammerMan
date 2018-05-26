@@ -1,16 +1,12 @@
 package org.l5p.server.communication;
 
-import java.awt.Color;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.l5p.commons.Endpoint;
-import org.l5p.commons.IOUtils;
-import org.l5p.commons.PlayerCreationMessage;
 import org.l5p.commons.SocketListener;
 import org.l5p.server.game.Game;
 import org.l5p.server.game.GameFactory;
@@ -47,6 +43,7 @@ public class Server implements Endpoint {
 		players = new HashMap<SocketListener, Player>(maxPlayers);
 		messageHandler = new ServerMessageHandler(this);
 		startListening(portNumber);
+		startGame();
 	}
 	
 	/**
@@ -90,6 +87,8 @@ public class Server implements Endpoint {
 		if(!players.containsKey(socketListener)) {
 			players.put(socketListener, player);
 		}
+		game.addPlayer(player);
+		game.updateServer();
 	}
 	
 	@Override
@@ -105,9 +104,6 @@ public class Server implements Endpoint {
 	 */
 	public void startGame() {
 		game = new Game(this);
-		for(Player player : players.values()) {
-			game.addPlayer(player);
-		}
 		game.start();
 	}
 
@@ -121,16 +117,15 @@ public class Server implements Endpoint {
 			socketListener.sendMessage(message);
 		}
 	}
-	
-	public static void main(String[] args) throws Exception {
-		new Server();
-		Socket clientSocket = new Socket("localhost", ServerConfig.DEFAULT_SERVER_PORT);
-		ObjectOutputStream oos = new ObjectOutputStream(clientSocket.getOutputStream());
-		PlayerCreationMessage pcm = new PlayerCreationMessage();
-		pcm.setColor(Color.RED);
-		pcm.setName("Kadoc");
-		IOUtils.sendMessage(oos, pcm);
-		clientSocket.close();
+
+	@Override
+	public void onDisconnect(SocketListener socketListener) {
+		Player player = this.players.get(socketListener);
+		if(player == null) {
+			return;
+		}
+		game.removePlayer(player);
+		players.remove(socketListener);
 	}
 	
 }

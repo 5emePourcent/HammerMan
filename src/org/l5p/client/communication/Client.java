@@ -78,4 +78,10 @@ public class Client implements Endpoint {
 		gamePanel.update(gsm);
 	}
 
+	@Override
+	public void onDisconnect(SocketListener socketListener) {
+		System.out.println("Connexion coupée par le serveur");
+		gamePanel.getClientWindow().useMainMenuPanel();
+	}
+
 }

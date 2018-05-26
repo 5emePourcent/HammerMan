@@ -1,5 +1,6 @@
 package org.l5p.commons;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.l5p.server.game.Cell;
@@ -24,8 +25,23 @@ public class MessageFactory {
 	 */
 	public static final GameStateMessage createGameStateMessage(GameMap gameMap, List<Player> players) {
 		GameStateMessage gsm = new GameStateMessage();
+		gsm.setPlayerStates(createPlayerStates(players));
 		gsm.setCells(createGameStateCell(gameMap.getCells()));
 		return gsm;
+	}
+
+	private static List<PlayerState> createPlayerStates(List<Player> players) {
+		List<PlayerState> playerStates = new ArrayList<PlayerState>();
+		PlayerState ps;
+		for(Player player : players) {
+			ps = new PlayerState();
+			ps.setX(player.getX());
+			ps.setY(player.getY());
+			ps.setName(player.getName());
+			ps.setColor(player.getColor());
+			playerStates.add(ps);
+		}
+		return playerStates;
 	}
 
 	private static int[][] createGameStateCell(Cell[][] cells) {

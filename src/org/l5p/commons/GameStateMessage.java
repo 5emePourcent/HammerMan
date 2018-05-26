@@ -1,6 +1,7 @@
 package org.l5p.commons;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Objet de transit pour un message de mise à jour de la partie.
@@ -17,6 +18,8 @@ public class GameStateMessage implements Serializable {
 	
 	private int[][] cells;
 	
+	private List<PlayerState> playerStates;
+	
 	/**
 	 * Retourne les cellules du terrain de jeu.
 	 * 
@@ -32,6 +35,22 @@ public class GameStateMessage implements Serializable {
 	 */
 	public void setCells(int[][] cells) {
 		this.cells = cells;
+	}
+	
+	/**
+	 * @return une liste contenant les données de chaque joueur sur le terrain
+	 */
+	public List<PlayerState> getPlayerStates() {
+		return playerStates;
+	}
+	
+	/**
+	 * Met à jour les données des joueurs.
+	 * 
+	 * @param playerStates les données relatives aux joueurs sur le terrain
+	 */
+	public void setPlayerStates(List<PlayerState> playerStates) {
+		this.playerStates = playerStates;
 	}
 
 }
