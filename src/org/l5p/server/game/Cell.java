@@ -8,7 +8,7 @@ package org.l5p.server.game;
  */
 public class Cell {
 	
-	private boolean wall;
+	private int content;
 	
 	private final int x;
 	
@@ -26,19 +26,26 @@ public class Cell {
 	}
 
 	/**
-	 * @return vrai si la cellule est un mur.
+	 * @return vrai si la cellule est occupée par un obstacle (mur ou caisse).
 	 */
-	public boolean isWall() {
-		return wall;
+	public boolean isOccupied() {
+		return content != 0;
 	}
 	
 	/**
-	 * Met à jour le status de mur de la cellule.
-	 * 
-	 * @param wall true si la cellule doit être un mur, false sinon
+	 * @return le contenu de la cellule (0 = vide, 1 = mur, 2 = caisse)
 	 */
-	public void setWall(boolean wall) {
-		this.wall = wall;
+	public int getContent() {
+		return content;
+	}
+	
+	/**
+	 * Met à jour le contenu de la cellule.
+	 * 
+	 * @param content le nouveau contenu de la cellule
+	 */
+	public void setContent(int content) {
+		this.content = content;
 	}
 	
 	/**

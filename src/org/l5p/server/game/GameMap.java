@@ -3,6 +3,8 @@ package org.l5p.server.game;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.l5p.server.utils.ServerConfig;
+
 /**
  * Terrain de jeu d'une partie de HammerMan
  * 
@@ -29,9 +31,16 @@ public class GameMap {
 			for (int j = 0; j < cells[i].length; j++) {
 				cells[i][j] = new Cell(i, j);
 				if(i == 0 || i == cells.length-1 || j == 0 || j == cells[i].length-1) {
-					cells[i][j].setWall(true);
+					cells[i][j].setContent(1);
 				}
 			}
+		}
+		List<Cell> freeCells = getFreeCells();
+		Cell cell;
+		for(int i = 0; i < ServerConfig.STARTING_BOXES;i++) {
+			cell = freeCells.get((int)(Math.random()*freeCells.size()));
+			cell.setContent(2);
+			freeCells.remove(cell);
 		}
 	}
 	
@@ -51,7 +60,7 @@ public class GameMap {
 		List<Cell> freeCells = new ArrayList<Cell>();
 		for (int i = 0; i < cells.length; i++) {
 			for (int j = 0; j < cells[i].length; j++) {
-				if(!cells[i][j].isWall()) {
+				if(!cells[i][j].isOccupied()) {
 					freeCells.add(cells[i][j]);
 				}
 			}

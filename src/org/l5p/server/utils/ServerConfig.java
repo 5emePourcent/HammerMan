@@ -18,4 +18,6 @@ public class ServerConfig {
 	
 	public static final int MAP_HEIGHT = 20;
 
+	public static final int STARTING_BOXES = 4;
+
 }

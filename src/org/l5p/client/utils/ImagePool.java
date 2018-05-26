@@ -25,6 +25,7 @@ public class ImagePool {
 	private void initImages() throws IOException {
 		images = new HashMap<String, BufferedImage>();
 		images.put("wall", ImageIO.read(new File("resources/img/wall.png")));
+		images.put("box", ImageIO.read(new File("resources/img/box1.png")));
 		images.put("floor", ImageIO.read(new File("resources/img/floor.png")));
 	}
 	

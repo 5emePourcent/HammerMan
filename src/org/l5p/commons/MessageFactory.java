@@ -51,7 +51,7 @@ public class MessageFactory {
 		int[][] gsmCells = new int[cells.length][cells[0].length];
 		for (int i = 0; i < cells.length; i++) {
 			for (int j = 0; j < cells.length; j++) {
-				gsmCells[i][j] = cells[i][j].isWall() ? 1 : 0;
+				gsmCells[i][j] = cells[i][j].getContent();
 			}
 		}
 		return gsmCells;

@@ -64,7 +64,9 @@ public class GamePanel extends JPanel {
 					g.drawImage(imagePool.get("floor"), i*cellSize, j*cellSize, null);
 				} else if(cells[i][j] == 1) {
 					g.drawImage(imagePool.get("wall"), i*cellSize, j*cellSize, null);
-				}
+				} else if(cells[i][j] == 2) {
+					g.drawImage(imagePool.get("box"), i*cellSize, j*cellSize, null);
+				} 
 			}
 		}
 		
